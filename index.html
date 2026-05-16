@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vinay Kumar — Security Architect</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --ink-mid: #2d2d3a;
+    --ink-muted: #6b6b80;
+    --ink-faint: #a0a0b0;
+    --surface: #f7f6f2;
+    --surface-card: #ffffff;
+    --accent: #1a2e4a;
+    --accent-bright: #1e4080;
+    --accent-light: #e8eef7;
+    --gold: #c4922a;
+    --gold-light: #fdf5e6;
+    --border: #e2e0da;
+    --border-strong: #c8c4bc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(247, 246, 242, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 0.01em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 80px 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 55%; height: 100%;
+    background: var(--accent);
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    z-index: 0;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center; position: relative; z-index: 1;
+  }
+  .hero-left {}
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+  .hero-summary {
+    font-size: 1rem;
+    color: var(--ink-mid);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 2rem;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    padding: 0.75rem 1.75rem;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); }
+  .btn-outline {
+    padding: 0.75rem 1.75rem;
+    border: 1.5px solid var(--border-strong);
+    color: var(--ink-mid);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-right {
+    display: flex; flex-direction: column; gap: 1.5rem;
+    align-items: flex-start;
+  }
+  .stat-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; width: 100%;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+  }
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .cert-row {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .cert-badge {
+    background: var(--gold);
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  /* SECTIONS */
+  section { padding: 5rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    color: var(--ink);
+    margin-bottom: 3rem;
+    line-height: 1.2;
+  }
+
+  /* COMPETENCIES */
+  #competencies { background: var(--surface-card); }
+  .competencies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1.5px solid var(--border);
+  }
+  .competency-item {
+    background: var(--surface-card);
+    padding: 1.75rem;
+    transition: background 0.2s;
+    cursor: default;
+  }
+  .competency-item:hover { background: var(--accent-light); }
+  .comp-icon {
+    width: 36px; height: 36px;
+    background: var(--accent-light);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .comp-icon svg { width: 18px; height: 18px; stroke: var(--accent-bright); stroke-width: 1.5; fill: none; }
+  .comp-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
+  }
+  .comp-desc {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  /* EXPERIENCE */
+  #experience { background: var(--surface); }
+  .experience-timeline { position: relative; }
+  .experience-timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .exp-item {
+    padding-left: 2.5rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
+  .exp-item::before {
+    content: '';
+    position: absolute; left: -5px; top: 8px;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid var(--surface);
+  }
+  .exp-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; flex-wrap: wrap;
+    gap: 0.5rem; margin-bottom: 0.75rem;
+  }
+  .exp-company {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+  .exp-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    padding: 0.25rem 0.75rem;
+    background: var(--border);
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .exp-role {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.03em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .exp-pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .exp-pillar {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 2px;
+    padding: 1rem 1.25rem;
+  }
+  .pillar-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+  .pillar-body {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  /* CERTIFICATIONS */
+  #certifications { background: var(--accent); }
+  #certifications .section-label { color: rgba(255,255,255,0.5); }
+  #certifications .section-heading { color: white; }
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  .cert-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+  .cert-card:hover { background: rgba(255,255,255,0.1); }
+  .cert-card-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+  .cert-card-full {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.4;
+  }
+
+  /* TECH SKILLS */
+  #skills { background: var(--surface-card); }
+  .skills-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  .skill-group {}
+  .skill-group-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-tags {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .skill-tag {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--accent-bright);
+    background: var(--accent-light);
+    padding: 0.3rem 0.75rem;
+    border-radius: 2px;
+    border: 1px solid #c6d8f0;
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--surface);
+    text-align: center;
+  }
+  .contact-card {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .contact-intro {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+  .contact-links {
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color 0.2s, background 0.2s;
+    text-align: left;
+  }
+  .contact-link:hover { border-color: var(--accent); background: var(--accent-light); }
+  .contact-link-icon {
+    width: 36px; height: 36px;
+    background: var(--accent-light);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-link-icon svg { width: 16px; height: 16px; stroke: var(--accent-bright); stroke-width: 2; fill: none; }
+  .contact-link-label { font-size: 0.75rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .contact-link-value { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.78rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-name { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-title { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-summary { animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-cta { animation: fadeUp 0.6s 0.4s ease both; }
+  .hero-right { animation: fadeUp 0.6s 0.5s ease both; }
+
+  @media (max-width: 768px) {
+    .hero::before { display: none; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .stat-card .stat-number { color: var(--accent); }
+    .stat-card .stat-label { color: var(--ink-muted); }
+    .stat-card { background: var(--surface-card); border-color: var(--border); }
+    .hero { background: var(--surface); }
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 0.75rem; }
+    section { padding: 3.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">VK</div>
+  <ul class="nav-links">
+    <li><a href="#competencies">Expertise</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <p class="hero-eyebrow">// Security Architect · Melbourne, AU</p>
+      <h1 class="hero-name">Vinay<br>Kumar</h1>
+      <p class="hero-title">Cybersecurity Advisor &amp; Senior Security Consultant</p>
+      <p class="hero-summary">15+ years delivering secure, scalable, and standards-aligned architectures across telecom, cloud, and enterprise environments. Translating technical risk into business-aligned decisions.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary">Get in Touch</a>
+        <a href="#experience" class="btn-outline">View Experience</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">Years of experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5G</div>
+          <div class="stat-label">Telecom security</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Major cloud platforms</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">ZT</div>
+          <div class="stat-label">Zero Trust architect</div>
+        </div>
+      </div>
+      <div class="cert-row">
+        <span class="cert-badge">CISSP</span>
+        <span class="cert-badge">SABSA</span>
+        <span class="cert-badge">CCSP</span>
+        <span class="cert-badge">ISO 27001</span>
+        <span class="cert-badge">CCSE</span>
+        <span class="cert-badge">CCNA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETENCIES -->
+<section id="competencies">
+  <div class="container">
+    <p class="section-label">// Core competencies</p>
+    <h2 class="section-heading">Areas of Expertise</h2>
+    <div class="competencies-grid">
+
+      <div class="competency-item">
+        <div class="comp-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <div class="comp-title">Security Architecture &amp; Design</div>
+        <div class="comp-desc">End-to-end architecture, solution assessment, Zero Trust frameworks, reference architecture design.</div>
+      </div>
+
+      <div class="competency-item">
+        <div class="comp-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg></div>
+        <div class="comp-title">Cloud Security</div>
+        <div class="comp-desc">Azure, AWS, and NCP security architecture. Cloud-native controls and security uplift programs.</div>
+      </div>
+
+      <div class="competency-item">
+        <div class="comp-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <div class="comp-title">Security Controls &amp; Governance</div>
+        <div class="comp-desc">3GPP, GSMA, NIST, ISO 27001, CIS Benchmarks — policy definition and compliance governance.</div>
+      </div>
+
+      <div class="competency-item">
+        <div class="comp-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="comp-title">Identity &amp; Access</div>
+        <div class="comp-desc">IAM, PAM, PKI, and API security design across complex multi-vendor environments.</div>
+      </div>
+
+      <div class="competency-item">
+        <div class="comp-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div class="comp-title">Risk &amp; Assurance</div>
+        <div class="comp-desc">Threat modelling, architecture QA, operational readiness assessments, and gap analysis.</div>
+      </div>
+
+      <div class="competency-item">
+        <div class="comp-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+        <div class="comp-title">Telecom Security</div>
+        <div class="comp-desc">IMS, SIP, Diameter, GTP, 5G SBA — deep expertise in telco-grade security architectures.</div>
+      </div>
+
+      <div class="competency-item">
+        <div class="comp-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="comp-title">Stakeholder Leadership</div>
+        <div class="comp-desc">Trusted advisor to architects, engineers, and business leaders. Translating risk for decision-makers.</div>
+      </div>
+
+      <div class="competency-item">
+        <div class="comp-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="comp-title">Emerging Technology</div>
+        <div class="comp-desc">Cloud-native security, automation, AI/ML security exposure and future roadmap shaping.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">// Professional experience</p>
+    <h2 class="section-heading">Career Journey</h2>
+    <div class="experience-timeline">
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-company">Nokia</div>
+            <div class="exp-role">Security E2E Architect &amp; Security Advisor</div>
+          </div>
+          <span class="exp-period">Nov 2010 – Present</span>
+        </div>
+        <div class="exp-pillars">
+          <div class="exp-pillar">
+            <div class="pillar-title">Architecture &amp; Assessment</div>
+            <div class="pillar-body">End-to-end security architecture assessments for major telecom and cloud transformation programs. Evaluation of solution designs, APIs, integration patterns, and cloud workloads.</div>
+          </div>
+          <div class="exp-pillar">
+            <div class="pillar-title">Governance &amp; Standards</div>
+            <div class="pillar-body">Defined and governed security architectures across strategic initiatives. Developed reusable security patterns and reference architectures aligned to NIST, ISO 27001, 3GPP, and GSMA.</div>
+          </div>
+          <div class="exp-pillar">
+            <div class="pillar-title">Stakeholder Advisory</div>
+            <div class="pillar-body">Acted as trusted advisor to architects, engineers, product owners, and business leaders. Collaborated with vendors to embed appropriate security controls into solution designs.</div>
+          </div>
+          <div class="exp-pillar">
+            <div class="pillar-title">Technology &amp; Roadmaps</div>
+            <div class="pillar-body">Assessed emerging security technologies and cloud-native controls. Contributed to Zero Trust adoption, cloud security uplift, and identity modernisation strategies.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-company">Wipro Consulting Services</div>
+            <div class="exp-role">Security Manager</div>
+          </div>
+          <span class="exp-period">2002 – Nov 2010</span>
+        </div>
+        <div class="exp-pillars">
+          <div class="exp-pillar">
+            <div class="pillar-title">Enterprise Security</div>
+            <div class="pillar-body">Security architecture and solution assessments for enterprise clients across telecom, banking, and government sectors.</div>
+          </div>
+          <div class="exp-pillar">
+            <div class="pillar-title">Governance &amp; Compliance</div>
+            <div class="pillar-body">Led risk assessments, compliance reviews, and security governance uplift programs. Supported incident response and vulnerability management.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-company">CMS Computers Ltd</div>
+            <div class="exp-role">Security Engineer</div>
+          </div>
+          <span class="exp-period">2001 – 2002</span>
+        </div>
+        <div class="exp-pillars">
+          <div class="exp-pillar">
+            <div class="pillar-title">Implementation</div>
+            <div class="pillar-body">Implemented firewalls, VPNs, endpoint security, and network hardening solutions. Developed security policies and operational procedures.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <p class="section-label">// Qualifications</p>
+    <h2 class="section-heading">Certifications</h2>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <div class="cert-card-name">CISSP</div>
+        <div class="cert-card-full">Certified Information Systems Security Professional</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-card-name">SABSA</div>
+        <div class="cert-card-full">Foundation &amp; Practitioner — Sherwood Applied Business Security Architecture</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-card-name">CCSP</div>
+        <div class="cert-card-full">Certified Cloud Security Professional</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-card-name">ISO 27001</div>
+        <div class="cert-card-full">Lead Implementer — Information Security Management</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-card-name">CCSE / CCSA</div>
+        <div class="cert-card-full">Check Point Security Expert &amp; Administrator</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-card-name">CCNA / MCSE</div>
+        <div class="cert-card-full">Cisco &amp; Microsoft Certified Network &amp; Systems Engineer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">// Technical stack</p>
+    <h2 class="section-heading">Skills &amp; Technologies</h2>
+    <div class="skills-layout">
+      <div class="skill-group">
+        <div class="skill-group-title">Cloud Security</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Azure</span>
+          <span class="skill-tag">AWS</span>
+          <span class="skill-tag">NCP</span>
+          <span class="skill-tag">Cloud-native security</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Architecture</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Zero Trust</span>
+          <span class="skill-tag">SOA</span>
+          <span class="skill-tag">REST / API security</span>
+          <span class="skill-tag">Microservices</span>
+          <span class="skill-tag">5G SBA</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Security Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">SIEM</span>
+          <span class="skill-tag">IAM / PAM</span>
+          <span class="skill-tag">PKI</span>
+          <span class="skill-tag">WAF</span>
+          <span class="skill-tag">EDR</span>
+          <span class="skill-tag">Vuln. Management</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Frameworks</div>
+        <div class="skill-tags">
+          <span class="skill-tag">NIST CSF</span>
+          <span class="skill-tag">ISO 27001</span>
+          <span class="skill-tag">CIS Benchmarks</span>
+          <span class="skill-tag">SABSA</span>
+          <span class="skill-tag">MITRE ATT&amp;CK</span>
+          <span class="skill-tag">ACSC / ISM</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Telecom Standards</div>
+        <div class="skill-tags">
+          <span class="skill-tag">3GPP</span>
+          <span class="skill-tag">GSMA</span>
+          <span class="skill-tag">IMS / SIP</span>
+          <span class="skill-tag">Diameter / GTP</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Delivery Frameworks</div>
+        <div class="skill-tags">
+          <span class="skill-tag">TOGAF</span>
+          <span class="skill-tag">ITIL</span>
+          <span class="skill-tag">Agile</span>
+          <span class="skill-tag">Threat Modelling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">// Get in touch</p>
+    <h2 class="section-heading">Contact</h2>
+    <div class="contact-card">
+      <p class="contact-intro">Available for security architecture engagements, advisory roles, and consulting opportunities across Australia and globally.</p>
+      <div class="contact-links">
+        <a href="mailto:Vinaykr78@gmail.com" class="contact-link">
+          <div class="contact-link-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg></div>
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-value">Vinaykr78@gmail.com</div>
+          </div>
+        </a>
+        <a href="tel:+61409361073" class="contact-link">
+          <div class="contact-link-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.1 6.1l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div>
+            <div class="contact-link-label">Phone</div>
+            <div class="contact-link-value">0409 361 073</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/vinay-kumar-b2055aa" target="_blank" rel="noopener" class="contact-link">
+          <div class="contact-link-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-value">linkedin.com/in/vinay-kumar-b2055aa</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 Vinay Kumar &nbsp;·&nbsp; Melbourne, Australia &nbsp;·&nbsp; Security Architect
+</footer>
+
+</body>
+</html>
